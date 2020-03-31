@@ -11,8 +11,8 @@ Sequel.migration do
       String :first_name, null: false, size: 200
       String :last_name, null: false, size: 200
       String :email, null: false, size: 200, unique: true
-      DateTime :created_at, default: :NOW.sql_function
-      DateTime :updated_at, default: :NOW.sql_function
+      DateTime :created_at, default: Sequel::CURRENT_TIMESTAMP
+      DateTime :updated_at, default: Sequel::CURRENT_TIMESTAMP
       user_role :role
 
       index :created_at
@@ -30,9 +30,9 @@ Sequel.migration do
   end
 
   down do
+    drop_trigger(:user_account, :trg_updated_at)
     drop_table(:user_account)
     drop_enum(:user_role)
     drop_function(:set_updated_at)
-    drop_trigger(:user_account, :trg_updated_at)
   end
 end
