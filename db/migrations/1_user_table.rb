@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 require 'sequel'
+require_relative '../../lib/models'
 
 Sequel.migration do
   up do
-    create_enum(:user_role, %w[admin project_owner team_member])
+    create_enum(:user_role, Models::USER_ROLES)
 
     create_table(:user_account) do
       primary_key :id, type: :Bignum
@@ -14,6 +15,7 @@ Sequel.migration do
       DateTime :created_at, default: Sequel::CURRENT_TIMESTAMP
       DateTime :updated_at, default: Sequel::CURRENT_TIMESTAMP
       user_role :role
+      String :pwd_hash, null: false, size: 100
 
       index :created_at
       index :email
