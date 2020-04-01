@@ -3,6 +3,7 @@ GEM
   specs:
     ast (2.4.0)
     backport (1.1.2)
+    bcrypt (3.1.13)
     benchmark (0.1.0)
     e2mmap (0.1.0)
     jaro_winkler (1.5.4)
@@ -19,14 +20,14 @@ GEM
     reverse_markdown (1.4.0)
       nokogiri
     rexml (3.2.4)
-    rubocop (0.80.1)
+    rubocop (0.81.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.7.0.1)
       rainbow (>= 2.2.2, < 4.0)
       rexml
       ruby-progressbar (~> 1.7)
-      unicode-display_width (>= 1.4.0, < 1.7)
+      unicode-display_width (>= 1.4.0, < 2.0)
     ruby-progressbar (1.10.1)
     sequel (5.30.0)
     solargraph (0.38.6)
@@ -45,13 +46,14 @@ GEM
       yard (~> 0.9)
     thor (1.0.1)
     tilt (2.0.10)
-    unicode-display_width (1.6.1)
+    unicode-display_width (1.7.0)
     yard (0.9.24)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt
   pg (>= 0.18, < 2.0)
   rack
   sequel

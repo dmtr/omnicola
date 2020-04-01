@@ -5,6 +5,7 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
 ruby '2.7.0'
 
+gem 'bcrypt'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'rack'
 gem 'sequel'
