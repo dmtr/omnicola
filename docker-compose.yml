@@ -1,5 +1,21 @@
 version: '3.4'
 services:
+    omnicola:
+      build: .
+      ports:
+        - "9292:9292"
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_DBNAME: omnicola
+        POSTGRES_HOST: omnicola.postgres
+        POSTGRES_PORT: 5432
+      container_name: omnicola.app
+      tty: true
+      networks:
+        - omnicola
+      volumes:
+        - .:/app/
+
     postgresql:
       build:
         context: ./postgres/
