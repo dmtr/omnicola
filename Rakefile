@@ -12,3 +12,12 @@ namespace :db do
     end
   end
 end
+
+namespace :app do
+  desc 'Create admin'
+  task :create_admin, [:first_name, :last_name, :email, :password] do |_, args|
+    require_relative './lib/usecase'
+    include UserUseCases
+    create_admin(args.first_name, args.last_name, args.email, args.password)
+  end
+end
