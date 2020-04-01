@@ -2,14 +2,13 @@
 
 require 'bcrypt'
 require 'sequel'
-require 'logger'
 require_relative './db'
-
-logger = Logger.new(STDOUT)
+require_relative './utils'
 
 # user related database methods
 module UserDataStore
   include Database
+  include Utils
   # class User < Sequel::Model(:user_account); end
 
   def create_user(user, password)
@@ -18,7 +17,7 @@ module UserDataStore
       u = connection[:user_account].insert(params)
       u
     rescue Sequel::DatabaseError => e
-      logger.error(e)
+      log.error(e)
     end
   end
 end

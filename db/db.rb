@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 require 'sequel'
+require_relative './utils'
 
+# Database related methods
 module Database
-  @db = nil
+  include Utils
 
   def connection
-    if @db.nil?
-      @db = Sequel.connect(ENV.fetch('DATABASE_URL'))
-    end
-    @db
+    @connection ||= Sequel.connect(ENV.fetch('DATABASE_URL'))
+    log.debug @connection
+    @connection
   end
 end
