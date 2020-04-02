@@ -10,5 +10,9 @@ module Models
   CLOSED = 'closed'
   PROJECT_STATUSES = [ACTIVE, CLOSED]
 
+  NEW = 'new'
+  POSTPONED = 'postponed'
+  TASK_STATUSES = [NEW, POSTPONED]
+
   User = Struct.new(:first_name, :last_name, :email, :role, keyword_init: true)
 end
