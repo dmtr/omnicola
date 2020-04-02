@@ -8,8 +8,8 @@ module Database
   include Utils
 
   def connection
-    @connection ||= Sequel.connect(ENV.fetch('DATABASE_URL'))
-    log.debug @connection
-    @connection
+    @@connection ||= Sequel.connect(ENV.fetch('DATABASE_URL'))
+    log.debug @@connection.object_id
+    @@connection
   end
 end
