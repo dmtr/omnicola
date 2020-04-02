@@ -12,7 +12,7 @@ Sequel.migration do
       String :title, null: false, size: 200
       DateTime :created_at, default: Sequel::CURRENT_TIMESTAMP
       DateTime :updated_at, default: Sequel::CURRENT_TIMESTAMP
-      project_status :status
+      project_status :status, default: Models::ACTIVE
 
       index :created_at
       index :status
