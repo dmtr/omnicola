@@ -17,5 +17,5 @@ module Models
   DISABLED = 'disabled'
   TASK_REMINDER_STATUSES = [ACTIVE, DISABLED]
 
-  User = Struct.new(:first_name, :last_name, :email, :role, keyword_init: true)
+  User = Struct.new(:first_name, :last_name, :email, :role, :pwd_hash, keyword_init: true)
 end
