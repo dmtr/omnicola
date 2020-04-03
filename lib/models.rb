@@ -14,5 +14,8 @@ module Models
   POSTPONED = 'postponed'
   TASK_STATUSES = [NEW, POSTPONED]
 
+  DISABLED = 'disabled'
+  TASK_REMINDER_STATUSES = [ACTIVE, DISABLED]
+
   User = Struct.new(:first_name, :last_name, :email, :role, keyword_init: true)
 end
