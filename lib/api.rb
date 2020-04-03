@@ -5,27 +5,31 @@ require 'rack'
 require 'rack/contrib'
 require 'logger'
 require 'dry/validation'
+require_relative './usecase'
+
+class UserCreds < Dry::Validation::Contract
+  json do
+    required(:email).filled(:string)
+    required(:password).filled(:string)
+  end
+
+  rule(:email) do
+    unless /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.match?(value)
+      key.failure('has invalid format')
+    end
+  end
+end
 
 # Api methods implementation
 module ApiMethods
-  class UserCreds < Dry::Validation::Contract
-    json do
-      required(:email).filled(:string)
-      required(:password).filled(:string)
-    end
-
-    rule(:email) do
-      unless /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.match?(value)
-        key.failure('has invalid format')
-      end
-    end
-  end
+  include UserUseCases
 
   def signin(request)
     contract = UserCreds.new
     res = contract.call(request.params)
     if res.errors.empty?
-      @logger.debug(res)
+      t = get_token(res[:email], res[:password])
+      { token: t }
     else
       res.errors.to_h
     end
@@ -49,7 +53,7 @@ class Api
     r = block.call
     Rack::Response.new(r.to_json)
   rescue StandardError => e
-    @logger.error('Got Error ' + e.to_s)
+    @logger.error(e.to_s + '\n' + e.backtrace.join("\n"))
     Rack::Response.new({ error: 'Server error' }.to_json, 500)
   end
 

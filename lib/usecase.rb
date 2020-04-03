@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'bcrypt'
 require_relative '../db/user.rb'
 require_relative './models'
 
@@ -13,5 +14,12 @@ module UserUseCases
                          email: email,
                          role: Models::ADMIN)
     create_user(u, password)
+  end
+
+  def get_token(email, password)
+    u = get_user_by_email(email)
+    if BCrypt::Password.new(u.pwd_hash) == password
+      "token"
+    end
   end
 end
