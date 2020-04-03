@@ -4,11 +4,31 @@ require 'json'
 require 'rack'
 require 'rack/contrib'
 require 'logger'
+require 'dry/validation'
 
 # Api methods implementation
 module ApiMethods
+  class UserCreds < Dry::Validation::Contract
+    json do
+      required(:email).filled(:string)
+      required(:password).filled(:string)
+    end
+
+    rule(:email) do
+      unless /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.match?(value)
+        key.failure('has invalid format')
+      end
+    end
+  end
+
   def signin(request)
-    { token: 'test' }
+    contract = UserCreds.new
+    res = contract.call(request.params)
+    if res.errors.empty?
+      @logger.debug(res)
+    else
+      res.errors.to_h
+    end
   end
 end
 
