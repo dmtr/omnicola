@@ -24,6 +24,17 @@ module UserUseCases
     token
   end
 
+  def check_token(token)
+    decoded_token = JWT.decode token, ENV.fetch('TOKEN_TTL') .to_i, true, { algorithm: 'HS256' }
+    decoded_token
+  rescue JWT::ExpiredSignature
+    @logger.warn('token is expired')
+    nil
+  rescue JWT::DecodeError => e
+    @logger.warn('Cannot decode token ' + e.to_s)
+    nil
+  end
+
   def get_token(email, password)
     u = get_user_by_email(email)
     if BCrypt::Password.new(u.pwd_hash) == password
