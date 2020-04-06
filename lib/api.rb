@@ -59,8 +59,8 @@ class Api
 
   def response
     @logger.debug(@request.params)
-    case @request.path
-    when '/api/signin'
+    case { path: @request.path, method: @request.request_method }
+    in path: '/api/signin', method: 'POST'
       make_json_reponse { |_| signin @request }
     else
       Rack::Response.new('Not Found', 404)
