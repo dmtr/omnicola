@@ -6,6 +6,8 @@ services:
         - "9292:9292"
       environment:
         DATABASE_URL: postgres://postgres@omnicola.postgres:5432/omnicola 
+        SECRET: ${SECRET:- "somesecret"}
+        TOKEN_TTL: ${TOKEN_TTL:-"3600"}
       container_name: omnicola.app
       tty: true
       networks:
