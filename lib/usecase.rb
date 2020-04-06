@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'bcrypt'
+require 'jwt'
 require_relative '../db/user.rb'
 require_relative './models'
 
@@ -16,10 +17,17 @@ module UserUseCases
     create_user(u, password)
   end
 
+  def generate_token(payload)
+    token = JWT.encode payload, ENV.fetch('SECRET'), 'HS256'
+    exp = Time.now.to_i + ENV.fetch('TOKEN_TTL') .to_i
+    payload[:exp] = exp
+    token
+  end
+
   def get_token(email, password)
     u = get_user_by_email(email)
     if BCrypt::Password.new(u.pwd_hash) == password
-      "token"
+      generate_token({ email: email })
     end
   end
 end
